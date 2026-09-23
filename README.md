@@ -41,7 +41,7 @@ julia --project=. make_summary.jl
 | `exp3_conformity.jl` | Sect. 7.3, Table 3 | tangential jumps on two-cell and scrambled meshes, rotation on/off, mass SPD |
 | `exp4_convergence.jl` | Sect. 7.4, Table 4 | $L^2$ projection on sorted vs scrambled meshes, rates, sorted-vs-scrambled difference |
 | `exp5_interpolation.jl` | (not in the paper) | convergence of the coefficient-functional interpolant |
-| `exp6_curlcurl.jl` | Sect. 7.5 | curl–curl problem $\operatorname{curl}\operatorname{curl}u+u=f$, natural boundary condition, sorted vs scrambled meshes, rates and sorted-vs-scrambled difference |
+| `exp6_curlcurl.jl` | Sect. 7.5 | curl–curl problem $\mathrm{curl}\,\mathrm{curl}\,u+u=f$, natural boundary condition, sorted vs scrambled meshes, rates and sorted-vs-scrambled difference |
 | `make_summary.jl` | | concatenates the Exp. 1–3 tables into `results/summary_1_3.md` |
 
 The scripts run on Gridap's vector-proxied implementation of the bases: the
@@ -50,7 +50,7 @@ $P_r\Lambda^1$) and `BarycentricPmΛBasis` (trimmed $P_r^-\Lambda^1$) with
 `flavor = :BMM`, the elements are `RotatingPΛRefFE` / `TrimmedPΛRefFE`, and the
 rotation calculus is `Gridap.Polynomials.rotation_change_of_basis` and friends.
 Form-language quantities are computed through their vector proxies:
-$\langle u, v\rangle = u\cdot v$ and $du \leftrightarrow \operatorname{curl} u$
+$\langle u, v\rangle = u\cdot v$ and $du \leftrightarrow \mathrm{curl}\,u$
 (a scalar in 2D, $(du_{23}, -du_{13}, du_{12})$ in 3D).
 
 The timings in Table 2 are very machine-dependent.
