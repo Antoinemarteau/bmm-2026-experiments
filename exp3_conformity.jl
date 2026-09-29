@@ -301,6 +301,7 @@ out = Pair{String,Any}[
   "experiment" => "exp3_conformity",
   "description" => "Tangential-jump conformity on scrambled simplicial meshes, rotation ON " *
                    "vs OFF (raw covariant Piola, no change of basis); mass-matrix SPD check.",
+  "julia" => string(VERSION),
   "two_cell" => rec_a,
   "scrambled_mesh" => rec_b,
 ]

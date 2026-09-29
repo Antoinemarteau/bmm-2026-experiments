@@ -4,16 +4,34 @@
 #
 #   julia --project=. make_summary.jl
 
+using Pkg
+
 resdir = joinpath(@__DIR__, "results")
+
+# Read the environment back from the active project instead of naming versions
+# here: a literal version in this file outlives the run that produced the
+# tables and then misreports it.
+function dep_version(name::AbstractString)
+  try
+    for (_, p) in Pkg.dependencies()
+      p.name == name && return string(p.version)
+    end
+  catch
+  end
+  "unknown"
+end
+
+const GRIDAP_VERSION = dep_version("Gridap")
 
 header = """
 # Numerical experiments 1–3 — quantitative results
 
-Package: Gridap.jl, branch with the vector-proxied rotating P_rΛ¹ and trimmed
-P_r⁻Λ¹ bases and their rotation change-of-basis calculus. Environment:
-Julia $(VERSION), Gridap 0.20.10. All scripts are deterministic; the only pseudo-randomness is
-`MersenneTwister(42)` (evaluation points in Exp. 1, mat-vec input in Exp. 2,
-cell scrambling in Exp. 3b).
+Package: Gridap.jl $(GRIDAP_VERSION), with the vector-proxied rotating P_rΛ¹ and
+trimmed P_r⁻Λ¹ bases and their rotation change-of-basis calculus. Environment:
+Julia $(VERSION), Gridap $(GRIDAP_VERSION); the machine is recorded in
+`results/environment.md`. All scripts are deterministic; the only
+pseudo-randomness is `MersenneTwister(42)` (evaluation points in Exp. 1,
+mat-vec input in Exp. 2, cell scrambling in Exp. 3b).
 
 Reproduce from the repo root:
 

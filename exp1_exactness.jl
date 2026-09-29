@@ -242,6 +242,7 @@ out = Pair{String,Any}[
   "experiment" => "exp1_exactness",
   "description" => "Exactness/inverse/representation of C(pi) over all pi,tau in S_{D+1}; " *
                    "pullback residual vs numeric oracle at 20 fixed points.",
+  "julia" => string(VERSION),
   "records" => records,
 ]
 

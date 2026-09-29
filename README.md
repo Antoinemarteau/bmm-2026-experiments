@@ -3,13 +3,14 @@
 Experiments for the article on rotating bases for exterior calculus.
 
 Each script writes its raw data as JSON and a Markdown table into `results/`;
-re-running overwrites them.
+re-running overwrites them. `results/environment.md` records the machine and
+software environment the committed results were produced on.
 
 ## Setup
 
 The repository contains the `Project.toml` and `Manifest.toml` specifying the
-code version the results were generated on, using Gridap.jl v0.20.10. They can
-be reproduced by instantiating reproduces the exact environment:
+code version the results were generated on, using Gridap.jl v0.20.10.
+Instantiating reproduces that environment:
 
 ```sh
 julia --project=. -e 'using Pkg; Pkg.instantiate()'
@@ -19,10 +20,18 @@ To run against a local Gridap checkout instead, `Pkg.develop(path="/path/to/Grid
 
 ## Run
 
-From the repository root, in any order except `make_summary.jl`, which
-concatenates the tables of Experiments 1–3 and so runs last:
+Everything, in order, with the environment recorded and a log per experiment:
 
 ```sh
+./run_all.sh              # --quick for a smoke test, --only 2,6 for a subset, --help for the rest
+```
+
+Or one at a time from the repository root, in any order except
+`make_summary.jl`, which concatenates the tables of Experiments 1–3 and so runs
+last:
+
+```sh
+julia --project=. env_stamp.jl            # writes results/environment.{md,json}
 julia --project=. exp1_exactness.jl
 julia --project=. exp2_sparsity.jl
 julia --project=. exp3_conformity.jl
@@ -43,6 +52,8 @@ julia --project=. make_summary.jl
 | `exp5_interpolation.jl` | (not in the paper) | convergence of the coefficient-functional interpolant |
 | `exp6_curlcurl.jl` | Sect. 7.5 | curl–curl problem $\mathrm{curl}\,\mathrm{curl}\,u+u=f$, natural boundary condition, sorted vs scrambled meshes, rates and sorted-vs-scrambled difference |
 | `make_summary.jl` | | concatenates the Exp. 1–3 tables into `results/summary_1_3.md` |
+| `env_stamp.jl` | | records CPU, Julia, Gridap and BLAS state in `results/environment.md` |
+| `run_all.sh` | | runs the above in order, serially, with logs and a pass/fail report |
 
 The scripts run on Gridap's vector-proxied implementation of the bases: the
 1-forms are `VectorValue`s, the local bases are `BarycentricPΛBasis` (full
@@ -53,4 +64,5 @@ Form-language quantities are computed through their vector proxies:
 $\langle u, v\rangle = u\cdot v$ and $du \leftrightarrow \mathrm{curl}\,u$
 (a scalar in 2D, $(du_{23}, -du_{13}, du_{12})$ in 3D).
 
-The timings in Table 2 are very machine-dependent.
+The timings in Table 2 are very machine-dependent: `exp2_table.md` names the
+machine it was measured on in its own header.

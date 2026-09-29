@@ -254,6 +254,7 @@ function main()
     "field_3d" => "u = (sin(pi x)cos(pi y), -cos(pi x)sin(pi y), sin(pi x)cos(pi z)) (curl u = (0, -pi cos cos, 2pi sin sin))",
     "scramble" => "per-cell Fisher-Yates via xorshift64, state mixes seed $SEED and cell id",
     "norms" => "errL2 = ||u - u_h||_L2; errCurl = ||curl(u - u_h)||_L2 (= ||d(u - u_h)||_L2); l2_norm_uh_diff = ||u_h^sorted - u_h^scrambled||_L2 (per-cell quadrature)",
+    "julia" => string(VERSION),
     "cases" => results,
   ]
   open(joinpath(outdir, "exp4_convergence$suffix.json"), "w") do io
@@ -315,6 +316,7 @@ function main()
     is informative.
   - D=3 uses n per side ∈ {2,4,8} for r=1 and {2,4} for r=2 to bound runtime;
     coarse 3D levels are pre-asymptotic, so 3D rates are indicative only.
+  - Environment: Julia $(VERSION); machine recorded in `environment.md`.
   """)
   open(joinpath(outdir, "summary_4$suffix.md"), "w") do f
     write(f, String(take!(io)))

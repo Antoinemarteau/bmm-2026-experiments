@@ -119,7 +119,13 @@ end
 rate(errs, hs) = [log(errs[i-1]/errs[i]) / log(hs[i-1]/hs[i]) for i in 2:length(errs)]
 
 function main()
-  results = Dict{String,Any}("seed"=>SEED, "cases"=>Dict{String,Any}())
+  results = Dict{String,Any}(
+    "experiment" => "exp5_interpolation",
+    "description" => "Convergence of the coefficient-functional (collocation) interpolant I_h u " *
+                     "under h-refinement, on sorted and per-cell scrambled vertex orderings (seed $SEED).",
+    "julia" => string(VERSION),
+    "seed" => SEED,
+    "cases" => Dict{String,Any}())
   cases = [(2,:full,1,[4,8,16,32]), (2,:full,2,[4,8,16,32]), (2,:full,3,[4,8,16,32]),
            (2,:trimmed,1,[4,8,16,32]), (2,:trimmed,2,[4,8,16,32]), (2,:trimmed,3,[4,8,16,32]),
            (3,:full,1,[2,4,8]), (3,:full,2,[2,4,8]),
@@ -142,7 +148,18 @@ function main()
   open(joinpath(outdir, "exp5_interpolation.json"),"w") do io; print(io, json(results, 2)); end
   # summary table
   open(joinpath(outdir, "summary_5.md"),"w") do io
+    println(io, "# Experiment 5 — convergence of the coefficient-functional interpolant\n")
+    println(io, "Interpolant I_h u of the manufactured 1-forms of Experiment 4, built from the")
+    println(io, "pointwise predofs at the BB lattice nodes (paper §4.5), under h-refinement on")
+    println(io, "sorted and per-cell scrambled vertex orderings (seed $SEED). Rates are measured")
+    println(io, "between the two finest levels; \"expected\" is the Bramble–Hilbert prediction")
+    println(io, "(L²: r+1 full, r trimmed).\n")
+    println(io, "The last column is |errL²_sorted − errL²_scrambled| / errL²_scrambled at the")
+    println(io, "finest level. Unlike the \"‖Δu_h‖\" columns of Experiments 4 and 6, which are")
+    println(io, "conformity checks that must be machine zero, this one is reported as measured.\n")
+    println(io, "Environment: Julia $(VERSION); machine recorded in `environment.md`.\n")
     println(io, "| space | D | r | errL2 (finest, scrambled) | L2 rate | expected | curl rate | sorted-vs-scr rel. diff |")
+    println(io, "|---|---|---|---|---|---|---|---|")
     for (D,name,r,ns) in cases
       key = "D$(D)_$(name)_r$(r)"; c = results["cases"][key]; lv = c["levels"][end]
       rel = abs(lv["errL2_sorted"]-lv["errL2_scrambled"])/lv["errL2_scrambled"]

@@ -31,6 +31,22 @@ using Random
 using Statistics: mean, median
 using Printf
 
+# The timings below are µs- and ns-scale, so the table is only interpretable
+# next to the machine that produced it. Each probe is guarded so a missing
+# introspection API degrades one field instead of losing the measurements.
+_probe(f) = try
+  string(f())
+catch
+  "unknown"
+end
+
+cpu_model()   = _probe(() -> strip(first(Sys.cpu_info()).model))
+blas_threads() = _probe(LinearAlgebra.BLAS.get_num_threads)
+
+machine_line() = string(cpu_model(), ", ", Sys.CPU_THREADS, " logical cores, Julia ", VERSION,
+                        ", ", Threads.nthreads(), " Julia thread(s), ",
+                        blas_threads(), " BLAS thread(s)")
+
 # ── Minimal JSON writer (no external deps) ────────────────────────────────────
 _json(io::IO, ::Nothing)          = print(io, "null")
 _json(io::IO, x::Bool)            = print(io, x ? "true" : "false")
@@ -204,6 +220,8 @@ out = Pair{String,Any}[
   "description" => "Sparsity of rotation_map rows over all pi in S_{D+1}; hit fraction " *
                    "grouped by number of min-breaking faces (F with pi(min F) != min pi(F), |F|>=2); " *
                    "@elapsed-median microbenchmarks (1000 reps, warmup, cyclic pi).",
+  "julia" => string(VERSION),
+  "machine" => machine_line(),
   "records" => records,
 ]
 
@@ -223,6 +241,8 @@ open(joinpath(resdir, "exp2_table.md"), "w") do io
     "Timings are medians of 1000 @elapsed repetitions after warmup, fixed cyclic π = (2,…,D+1,1): ",
     "cold = first rotation_map call on a fresh RotationCache; hot = memoised call; dense = ",
     "rotation_change_of_basis build; mat-vec = dense n×n mul! (for scale).\n")
+  println(io, "Timings measured on: ", machine_line(), ". They are strongly ",
+    "machine-dependent; the sparsity columns are not.\n")
   println(io, "| space | D | r | n | hit rows: mean/π (frac) | max/π | neg 1-rows/π | nnz/row mean (max) | nnz/π vs n² | cold | hot | dense build | dense mat-vec |")
   println(io, "|---|---|---|---|---|---|---|---|---|---|---|---|---|")
   for rec in records

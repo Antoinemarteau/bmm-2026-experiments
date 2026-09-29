@@ -289,7 +289,8 @@ function main()
     end
     print(io, "\n")
   end
-  print(io, "Environment: Julia $(VERSION). Quadrature degree max(2r+2, 6).\n")
+  print(io, "Environment: Julia $(VERSION); machine recorded in `environment.md`. ",
+            "Quadrature degree max(2r+2, 6).\n")
   open(joinpath(outdir, "summary_6$suffix.md"), "w") do f
     write(f, String(take!(io)))
   end
