@@ -2,7 +2,9 @@
 
 # bmm-2026-experiments
 
-Experiments for the article on rotating bases for exterior calculus.
+Experiments for the article "Rotating Bases for Finite Element Exterior
+Calculus: Closed-Form Change of Basis Under Vertex Permutations", by Santiago
+Badia, Jordi Manyer and Antoine Marteau.
 
 Each script writes its raw data as JSON and a Markdown table into `results/`;
 re-running overwrites them. `results/environment.md` records the machine and
