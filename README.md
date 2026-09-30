@@ -1,3 +1,5 @@
+[![doi](https://zenodo.org/badge/doi/10.5281/zenodo.23049283.svg)](https://doi.org/10.5281/zenodo.23049283)
+
 # bmm-2026-experiments
 
 Experiments for the article on rotating bases for exterior calculus.
