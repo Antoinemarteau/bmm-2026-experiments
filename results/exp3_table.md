@@ -9,12 +9,12 @@ Max tangential jump across the shared facet over all global basis functions and 
 | rotating | 2 | 1 | 18 | 2.78e-17 | 1.00e+00 |
 | rotating | 2 | 2 | 18 | 4.72e-17 | 1.00e+00 |
 | rotating | 2 | 3 | 18 | 6.02e-17 | 7.50e-01 |
-| rotating | 3 | 1 | 6 | 1.11e-16 | 9.00e-01 |
-| rotating | 3 | 2 | 6 | 6.94e-17 | 6.00e-01 |
+| rotating | 3 | 1 | 6 | 5.55e-17 | 9.00e-01 |
+| rotating | 3 | 2 | 6 | 1.11e-16 | 6.00e-01 |
 | trimmed | 2 | 1 | 18 | 2.78e-17 | 2.00e+00 |
-| trimmed | 2 | 2 | 18 | 2.78e-17 | 1.00e+00 |
+| trimmed | 2 | 2 | 18 | 1.11e-16 | 1.00e+00 |
 | trimmed | 2 | 3 | 18 | 2.36e-17 | 7.45e-01 |
-| trimmed | 3 | 1 | 6 | 1.67e-16 | 1.80e+00 |
+| trimmed | 3 | 1 | 6 | 1.11e-16 | 1.80e+00 |
 | trimmed | 3 | 2 | 6 | 1.11e-16 | 8.10e-01 |
 
 #### (b) Larger scrambled meshes
@@ -23,13 +23,13 @@ Simplexified Cartesian meshes (2D: 8×8, 3D: 4×4×4) with every cell's vertex o
 
 | space | D | r | cells | interior facets | dofs | max jump ON | max jump OFF | mass λ_min | SPD |
 |---|---|---|---|---|---|---|---|---|---|
-| rotating | 2 | 1 | 128 | 176 | 416 | 4.44e-16 | 1.00e+00 | 2.90e-02 | yes |
+| rotating | 2 | 1 | 128 | 176 | 416 | 4.72e-16 | 1.00e+00 | 2.90e-02 | yes |
 | rotating | 2 | 2 | 128 | 176 | 1008 | 8.88e-16 | 1.00e+00 | 3.76e-03 | yes |
 | rotating | 2 | 3 | 128 | 176 | 1856 | 1.33e-15 | 7.50e-01 | 4.83e-04 | yes |
 | rotating | 3 | 1 | 384 | 672 | 1208 | 2.78e-16 | 9.00e-01 | 1.58e-03 | yes |
 | rotating | 3 | 2 | 384 | 672 | 4404 | 4.44e-16 | 6.00e-01 | 1.24e-04 | yes |
 | trimmed | 2 | 1 | 128 | 176 | 208 | 8.88e-16 | 2.00e+00 | 1.67e-01 | yes |
 | trimmed | 2 | 2 | 128 | 176 | 672 | 1.22e-15 | 1.00e+00 | 2.95e-03 | yes |
-| trimmed | 2 | 3 | 128 | 176 | 1392 | 1.22e-15 | 7.45e-01 | 1.16e-04 | yes |
+| trimmed | 2 | 3 | 128 | 176 | 1392 | 1.55e-15 | 7.45e-01 | 1.16e-04 | yes |
 | trimmed | 3 | 1 | 384 | 672 | 604 | 4.44e-16 | 1.80e+00 | 1.12e-02 | yes |
 | trimmed | 3 | 2 | 384 | 672 | 2936 | 6.66e-16 | 8.10e-01 | 1.09e-04 | yes |

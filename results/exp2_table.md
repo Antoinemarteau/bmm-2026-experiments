@@ -2,24 +2,26 @@
 
 Sparsity statistics aggregate over all (D+1)! permutations π. A "hit" row has more than one nonzero; for the trimmed space, single-term rows with sign −1 are counted separately ("neg 1-rows"). nnz counts signed entries of rotation_map(rc, π) (all entries ±1). Timings are medians of 1000 @elapsed repetitions after warmup, fixed cyclic π = (2,…,D+1,1): cold = first rotation_map call on a fresh RotationCache; hot = memoised call; dense = rotation_change_of_basis build; mat-vec = dense n×n mul! (for scale).
 
+Timings measured on: 13th Gen Intel(R) Core(TM) i7-13800H, 20 logical cores, Julia 1.12.6, 1 Julia thread(s), 10 BLAS thread(s). They are strongly machine-dependent; the sparsity columns are not.
+
 | space | D | r | n | hit rows: mean/π (frac) | max/π | neg 1-rows/π | nnz/row mean (max) | nnz/π vs n² | cold | hot | dense build | dense mat-vec |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| rotating | 2 | 1 | 6 | 0.00 (0.0%) | 0 | — | 1.000 (1) | 6.0 / 36 (16.7%) | 1.00 µs | 9 ns | 1.21 µs | 61 ns |
-| rotating | 2 | 2 | 12 | 0.00 (0.0%) | 0 | — | 1.000 (1) | 12.0 / 144 (8.3%) | 2.00 µs | 9 ns | 2.58 µs | 95 ns |
-| rotating | 2 | 3 | 20 | 0.67 (3.3%) | 1 | — | 1.033 (2) | 20.7 / 400 (5.2%) | 3.46 µs | 9 ns | 4.42 µs | 198 ns |
-| rotating | 2 | 4 | 30 | 2.00 (6.7%) | 3 | — | 1.067 (2) | 32.0 / 900 (3.6%) | 5.12 µs | 9 ns | 7.10 µs | 276 ns |
-| rotating | 3 | 1 | 12 | 0.00 (0.0%) | 0 | — | 1.000 (1) | 12.0 / 144 (8.3%) | 1.83 µs | 11 ns | 2.46 µs | 95 ns |
-| rotating | 3 | 2 | 30 | 0.00 (0.0%) | 0 | — | 1.000 (1) | 30.0 / 900 (3.3%) | 5.08 µs | 11 ns | 6.96 µs | 275 ns |
-| rotating | 3 | 3 | 60 | 2.67 (4.4%) | 4 | — | 1.044 (2) | 62.7 / 3600 (1.7%) | 9.96 µs | 10 ns | 16.04 µs | 549 ns |
-| rotating | 3 | 4 | 105 | 8.75 (8.3%) | 13 | — | 1.090 (3) | 114.5 / 11025 (1.0%) | 17.12 µs | 11 ns | 33.00 µs | 1.72 µs |
-| trimmed | 2 | 1 | 3 | 0.00 (0.0%) | 0 | 1.50 | 1.000 (1) | 3.0 / 9 (33.3%) | 500 ns | 9 ns | 750 ns | 48 ns |
-| trimmed | 2 | 2 | 8 | 0.67 (8.3%) | 1 | 3.67 | 1.083 (2) | 8.7 / 64 (13.5%) | 1.29 µs | 9 ns | 1.71 µs | 63 ns |
-| trimmed | 2 | 3 | 15 | 2.00 (13.3%) | 3 | 6.50 | 1.133 (2) | 17.0 / 225 (7.6%) | 2.65 µs | 9 ns | 3.46 µs | 159 ns |
-| trimmed | 2 | 4 | 24 | 4.00 (16.7%) | 6 | 10.00 | 1.167 (2) | 28.0 / 576 (4.9%) | 4.04 µs | 9 ns | 5.58 µs | 258 ns |
-| trimmed | 3 | 1 | 6 | 0.00 (0.0%) | 0 | 3.00 | 1.000 (1) | 6.0 / 36 (16.7%) | 959 ns | 11 ns | 1.25 µs | 59 ns |
-| trimmed | 3 | 2 | 20 | 2.67 (13.3%) | 4 | 8.67 | 1.133 (2) | 22.7 / 400 (5.7%) | 3.46 µs | 10 ns | 4.71 µs | 193 ns |
-| trimmed | 3 | 3 | 45 | 9.50 (21.1%) | 14 | 17.75 | 1.211 (2) | 54.5 / 2025 (2.7%) | 8.17 µs | 11 ns | 12.12 µs | 343 ns |
-| trimmed | 3 | 4 | 84 | 22.00 (26.2%) | 32 | 31.00 | 1.262 (2) | 106.0 / 7056 (1.5%) | 15.42 µs | 10 ns | 26.46 µs | 1.05 µs |
+| rotating | 2 | 1 | 6 | 0.00 (0.0%) | 0 | — | 1.000 (1) | 6.0 / 36 (16.7%) | 1.81 µs | 10 ns | 840 ns | 29 ns |
+| rotating | 2 | 2 | 12 | 0.00 (0.0%) | 0 | — | 1.000 (1) | 12.0 / 144 (8.3%) | 1.24 µs | 10 ns | 1.67 µs | 32 ns |
+| rotating | 2 | 3 | 20 | 0.67 (3.3%) | 1 | — | 1.033 (2) | 20.7 / 400 (5.2%) | 2.03 µs | 10 ns | 2.92 µs | 46 ns |
+| rotating | 2 | 4 | 30 | 2.00 (6.7%) | 3 | — | 1.067 (2) | 32.0 / 900 (3.6%) | 3.00 µs | 10 ns | 4.71 µs | 96 ns |
+| rotating | 3 | 1 | 12 | 0.00 (0.0%) | 0 | — | 1.000 (1) | 12.0 / 144 (8.3%) | 1.22 µs | 11 ns | 1.74 µs | 32 ns |
+| rotating | 3 | 2 | 30 | 0.00 (0.0%) | 0 | — | 1.000 (1) | 30.0 / 900 (3.3%) | 3.16 µs | 11 ns | 4.54 µs | 94 ns |
+| rotating | 3 | 3 | 60 | 2.67 (4.4%) | 4 | — | 1.044 (2) | 62.7 / 3600 (1.7%) | 6.33 µs | 11 ns | 17.14 µs | 204 ns |
+| rotating | 3 | 4 | 105 | 8.75 (8.3%) | 13 | — | 1.090 (3) | 114.5 / 11025 (1.0%) | 10.82 µs | 11 ns | 21.86 µs | 1.05 µs |
+| trimmed | 2 | 1 | 3 | 0.00 (0.0%) | 0 | 1.50 | 1.000 (1) | 3.0 / 9 (33.3%) | 329 ns | 10 ns | 436 ns | 21 ns |
+| trimmed | 2 | 2 | 8 | 0.67 (8.3%) | 1 | 3.67 | 1.083 (2) | 8.7 / 64 (13.5%) | 836 ns | 10 ns | 1.07 µs | 28 ns |
+| trimmed | 2 | 3 | 15 | 2.00 (13.3%) | 3 | 6.50 | 1.133 (2) | 17.0 / 225 (7.6%) | 1.63 µs | 10 ns | 2.45 µs | 49 ns |
+| trimmed | 2 | 4 | 24 | 4.00 (16.7%) | 6 | 10.00 | 1.167 (2) | 28.0 / 576 (4.9%) | 2.59 µs | 10 ns | 4.18 µs | 58 ns |
+| trimmed | 3 | 1 | 6 | 0.00 (0.0%) | 0 | 3.00 | 1.000 (1) | 6.0 / 36 (16.7%) | 785 ns | 11 ns | 1.02 µs | 29 ns |
+| trimmed | 3 | 2 | 20 | 2.67 (13.3%) | 4 | 8.67 | 1.133 (2) | 22.7 / 400 (5.7%) | 2.11 µs | 11 ns | 3.37 µs | 48 ns |
+| trimmed | 3 | 3 | 45 | 9.50 (21.1%) | 14 | 17.75 | 1.211 (2) | 54.5 / 2025 (2.7%) | 5.04 µs | 11 ns | 9.47 µs | 174 ns |
+| trimmed | 3 | 4 | 84 | 22.00 (26.2%) | 32 | 31.00 | 1.262 (2) | 106.0 / 7056 (1.5%) | 9.66 µs | 11 ns | 18.27 µs | 470 ns |
 
 #### Hit fraction vs number of min-breaking faces of π
 
