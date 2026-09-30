@@ -13,8 +13,9 @@ software environment the committed results were produced on.
 ## Setup
 
 The repository contains the `Project.toml` and `Manifest.toml` specifying the
-code version the results were generated on, using Gridap.jl v0.20.10.
-Instantiating reproduces that environment:
+code version the results were generated on, using the open source Gridap.jl
+v0.20.10 available from the official Julia packages registries. Instantiating
+reproduces that environment:
 
 ```sh
 julia --project=. -e 'using Pkg; Pkg.instantiate()'
